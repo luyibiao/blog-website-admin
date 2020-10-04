@@ -16,7 +16,7 @@ export default [
     name: 'home-info',
     component: () => import(/* webpackChunkName: "home-info" */ './page/home-info'),
     meta: {
-      title: '编辑首页',
+      title: '首页配置',
       isMenu: true
     }
   }

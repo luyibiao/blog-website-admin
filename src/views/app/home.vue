@@ -3,15 +3,18 @@
     <div class="sidebar">
       <my-menu />
       <div class="user-column">
-        <div class="user-name">
-          <small>{{getUser.insurerCompanyName || '-'}}</small>
+        <div class="user-column_wrap">
+          <div class="user-name">
+            <small>{{getUser.insurerCompanyName || '-'}}</small>
+          </div>
+          <div class="user-companyName">
+            {{getUser.realName || '-'}}
+          </div>
+          <div class="unlogin">
+            <el-button round @click="unLogin">退出登录</el-button>
+          </div>
         </div>
-        <div class="user-companyName">
-          {{getUser.realName || '-'}}
-        </div>
-        <div class="unlogin">
-          <el-button round @click="unLogin">退出登录</el-button>
-        </div>
+
       </div>
     </div>
     <div class="content">
@@ -37,11 +40,11 @@ export default {
   methods: {
     //退出登录，清空缓存
     unLogin(){
-      this.$plugins.clearLStorage();
-      this.$plugins.clearSStorage();
-      this.$store.replaceState({});
+      // this.$plugins.clearLStorage();
+      // this.$plugins.clearSStorage();
+      // this.$store.replaceState({});
       this.$router.replace('/login')
-      window.location.reload();
+      this.$nextTick(_ => void window.location.reload())
     },
   },
   mounted() {   
@@ -69,9 +72,14 @@ export default {
     white-space: nowrap;
     .user-column{
       text-align: center;
-      background: linear-gradient(to right, #545c64 40% , #fff 40% );
       color: $main-white;
-      padding: 10px 0;
+      padding: 0px 0 0px;
+      .user-column_wrap {
+        width: 120px;
+        background-color: #545c64;
+        padding-bottom: 10px;
+        box-sizing: border-box;
+      }
       .user-companyName{
         padding: 5px 10px;
         width: 100px;

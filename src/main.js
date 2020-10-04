@@ -19,7 +19,6 @@ Vue.prototype.$overall = overall
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
- 
   document.title = to.meta.title
   next()
 })

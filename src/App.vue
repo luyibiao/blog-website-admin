@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <my-home class="app-home"></my-home>
+    <template v-if="$route.meta.isNew">
+	    <router-view />
+  	</template>
+  	<template v-else >
+  		<my-home class="app-home"></my-home>
+  	</template>
   </div>
 </template>
 

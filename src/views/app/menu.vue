@@ -55,12 +55,14 @@ export default {
   },
   methods: {
     firstMenuClick(item, key) {
+      if (this.currentMenu.moduleName === key) return
       //给当前点击对象选中样式
       this.currentMenu.moduleName = key;
       //默认跳转子集菜单第一个
       this.$router.push(this.secMenu[0].path);
     },
     secMenuClick(item, key) {
+      if (this.currentMenu.name === item.name) return
       //给当前点击对象选中样式
       this.currentMenu.name = item.name;
       this.$router.push(item.path);
@@ -95,7 +97,7 @@ export default {
   .chh-menu{
     display: inline-block;
     height: 100%;
-    width: 100px;
+    width: 120px;
     vertical-align: top;
   }
   .first-menu{
