@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import components from '@/components';
 import overall from '@/utils/overall'
+import api from '@/api/'
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
@@ -16,6 +17,7 @@ components.install(Vue);
 Vue.config.productionTip = false
 
 Vue.prototype.$overall = overall
+Vue.prototype.$api = api
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
