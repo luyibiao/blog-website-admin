@@ -1,17 +1,21 @@
 import axios from 'axios';
+import qs from 'qs'
 
 const url = '/api'
 
 const instance = axios.create({
   baseURL: url,
   timeout: 10000,
-  headers: {
-    'content-Type': 'application/json;charset=UTF-8',
-    'Cache-Control': 'no-cache, no-store',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Authorization,Origin,X-Requested-With,Content-Type,Accept',
-  },
+  // withCredentials: false
 })
+
+instance.interceptors.request.use((config) => {
+  config.data = qs.stringify(config.data)
+  return config;
+}, (err) => {
+  console.log('请求超时!');
+  return Promise.resolve(err);
+});
 
 export default {
   post(url, data) {

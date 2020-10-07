@@ -66,7 +66,6 @@ export default {
     }
   },
   created() {
-    this.$api.getUser()
   },
   methods: {
     handleLogin () {
@@ -74,7 +73,7 @@ export default {
         //验证通过
         if (valid) {
           this.loading = true;
-          this.$api.adminLogin(this.loginForm).then(res => {
+          this.$api.getUser(this.loginForm).then(res => {
             //把登陆信息存入仓储
             this.$store.commit('setUser', res);    
             this.$router.push('/');
