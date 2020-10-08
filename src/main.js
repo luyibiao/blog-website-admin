@@ -9,7 +9,7 @@ import api from '@/api/'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
-Vue.use(ElementUI);
+Vue.use(ElementUI, { size: 'medium' });
 
 //注入所有组件
 components.install(Vue);

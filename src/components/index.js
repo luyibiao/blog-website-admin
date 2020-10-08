@@ -2,9 +2,12 @@
 import Vue from 'vue'
 // 图标
 import iconfont from './iconfont'
+// 富文本编辑器
+import quill from './quill'
 
 var conponents = [
   ...iconfont,
+  ...quill
 ]
 
 

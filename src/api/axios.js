@@ -17,11 +17,14 @@ instance.interceptors.request.use((config) => {
   return Promise.resolve(err);
 });
 
+
 export default {
   post(url, data) {
-    return new Promise((res, rej) => {
+    return new Promise((resolve, reject) => {
       instance.post(url, data).then(result => {
-        resolve(response.data);
+        resolve(result);
+      }).catch(e => {
+        reject(e)
       })
     })
   },

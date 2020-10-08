@@ -20,7 +20,7 @@ const menu = {
         children: listMenu
     },
     label: {
-        name: '标签列表',
+        name: '标签管理',
         children: labelMenu
     },
     session: {

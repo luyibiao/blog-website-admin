@@ -54,8 +54,8 @@ export default {
   data() {
     return {
       loginForm: {
-        account: '',
-        password: ''
+        account: 'admin',
+        password: 'blogadmin'
       },
       loginRules: {
         account: [{ required: true, trigger: 'blur', message: '请输入账号' }],

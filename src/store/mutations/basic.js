@@ -4,5 +4,6 @@ export default {
   },
   setUser(state, info) {
     state.user = info
+    dovu
   }
 }

@@ -43,7 +43,7 @@ export default {
   // background: $main-white;
   padding: 0 5px;
   box-sizing: border-box;
-  min-height: 100%;
+  max-height: 100%;
   margin: 0 auto;
   height: 100%;
   color: $main-black;

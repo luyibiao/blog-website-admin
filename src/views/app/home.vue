@@ -2,29 +2,12 @@
   <div id="home" class="home">
     <div class="sidebar">
       <my-menu />
-      <div class="user-column">
-        <div class="user-column_wrap">
-          <div class="user-name">
-            <small>{{getUser.insurerCompanyName || '-'}}</small>
-          </div>
-          <div class="user-companyName">
-            {{getUser.realName || '-'}}
-          </div>
-          <div class="unlogin">
-            <el-button round @click="unLogin">退出登录</el-button>
-          </div>
-        </div>
-
-      </div>
     </div>
-    <div class="content">
-      <router-view />   
-    </div>
+    <router-view class="content-router_wrap"/>   
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import myMenu from './menu.vue';
 import myRouter from './router';
 export default {
@@ -34,18 +17,8 @@ export default {
 
     }
   },
-  computed: {
-    ...mapGetters(['getUser']),
-  },
   methods: {
-    //退出登录，清空缓存
-    unLogin(){
-      // this.$plugins.clearLStorage();
-      // this.$plugins.clearSStorage();
-      // this.$store.replaceState({});
-      this.$router.replace('/login')
-      this.$nextTick(_ => void window.location.reload())
-    },
+    
   },
   mounted() {   
 
@@ -98,20 +71,18 @@ export default {
         }
       }
     }
-    .menu{
-      height: calc(100% - 200px);
-      flex: 1;
-    }
+   
   }
-  .content{
-    @include inlineBox();
-    flex: 1; 
-    padding: 10px;
-    overflow: auto;
-    .router{
-      min-width: 1000px;
-      height: 100%;
-    }
+  .content-router_wrap{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px 70px;
+    box-sizing: border-box;
+    width: 100%;
+    overflow-y: auto;
+    // overflow: hidden;
+    // overflow-y: auto;
   }
 }
 </style>

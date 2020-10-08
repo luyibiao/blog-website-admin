@@ -10,4 +10,13 @@ export default [
       isMenu: true
     }
   },
+  {
+    path: '/label/hot-label',
+    name: 'hot-label',
+    component: () => import(/* webpackChunkName: "hot-label" */ './page/hot-label'),
+    meta: {
+      title: '热门标签',
+      isMenu: true
+    }
+  },
 ]

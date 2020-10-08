@@ -1,15 +1,31 @@
 <template>
   <div id="my_menu" class="menu">
     <!-- 导航栏 -->
-    <ul class="first-menu chh-menu">
-      <li 
-        class="first-menu-item" 
-        v-for="(item, key) in menu" 
-        :class="{'active': currentMenu.moduleName === key}"
-        :key="key" 
-        @click="firstMenuClick(item, key)"
-      >{{item.name}}</li>
-    </ul>
+    <div class="my_menu-first">
+      <ul class="first-menu chh-menu">
+        <li 
+          class="first-menu-item" 
+          v-for="(item, key) in menu" 
+          :class="{'active': currentMenu.moduleName === key}"
+          :key="key" 
+          @click="firstMenuClick(item, key)"
+        >{{item.name}}</li>
+      </ul>
+      <div class="user-column">
+        <div class="user-column_wrap">
+          <div class="user-name">
+            <small>{{getUser.insurerCompanyName || '-'}}</small>
+          </div>
+          <div class="user-companyName">
+            {{getUser.realName || '-'}}
+          </div>
+          <div class="unlogin">
+            <el-button round @click="unLogin">退出登录</el-button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <ul class="sec-menu chh-menu">
       <li 
         class="sec-menu-item" 
@@ -29,6 +45,7 @@
 
 <script>
 import menu from './menus'
+import { mapGetters } from 'vuex'
 export default {
   name: "my-menu",
   data() {
@@ -52,6 +69,7 @@ export default {
       //过滤非菜单栏的页面
       return secMenu ? secMenu.children.filter(v => v.meta.isMenu) : [];;
     },
+    ...mapGetters(['getUser']),
   },
   methods: {
     firstMenuClick(item, key) {
@@ -78,6 +96,14 @@ export default {
         name: path[1] ? path[1] : 'home'
       }
     },
+    //退出登录，清空缓存
+    unLogin(){
+      // this.$plugins.clearLStorage();
+      // this.$plugins.clearSStorage();
+      // this.$store.replaceState({});
+      this.$router.replace('/login')
+      this.$nextTick(_ => void window.location.reload())
+    },
   },
   watch: {
     '$route.path'(n,o){
@@ -94,6 +120,12 @@ export default {
   position: relative;
   @include inlineBox($width: auto);
   background-color: $main-white;
+  flex: 1;
+  display: flex;
+  .my_menu-first {
+    display: flex;
+    flex-direction: column;
+  }
   .chh-menu{
     display: inline-block;
     height: 100%;
