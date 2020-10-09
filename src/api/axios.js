@@ -1,5 +1,6 @@
 import axios from 'axios';
 import qs from 'qs'
+import Vue from 'vue'
 
 const url = '/api'
 
@@ -17,23 +18,43 @@ instance.interceptors.request.use((config) => {
   return Promise.resolve(err);
 });
 
+instance.interceptors.response.use((response) => {
+  const {data} = response
+  if (data.code === '1') {
+    return response
+  } else {
+    switchType(data.code, response.data)
+  }
+}, (err) => {
+  console.log(err)
+});
+
+
+function switchType(code, data) {
+  const vm = new Vue()
+  switch (code) {
+    case '00':
+      vm.$message.error(data.err || '请求错误')
+      break;
+    case '-1':
+      vm.$message.error(data.err || '请重新登录')
+      $router.push({path: '/login'})
+      break;
+    default:
+      break;
+  }
+}
+
 
 export default {
-  post(url, data) {
+  post(url, params) {
     return new Promise((resolve, reject) => {
-      instance.post(url, data).then(result => {
-        resolve(result);
+      instance.post(url, params).then(result => {
+        const {data} = result
+        data.code === '1' ? resolve(data.data) : reject(data)
       }).catch(e => {
         reject(e)
       })
     })
   },
-
-  get(url, data) {
-    return new Promise((res, rej) => {
-      instance.get(url, data).then(result => {
-        res(result.data);
-      })
-    })
-  }
 }

@@ -5,9 +5,16 @@ import iconfont from './iconfont'
 // 富文本编辑器
 import quill from './quill'
 
+// popup框
+import popup from './popup';
+
+// js方法
+import jsComp from './js';
+
 var conponents = [
   ...iconfont,
-  ...quill
+  ...quill,
+  ...popup,
 ]
 
 
@@ -16,13 +23,13 @@ const install = vm => {
   conponents.forEach(component => {
     vm.component(component.name, component)
   });
-  // for (const key in jsComp) {
-  //   if (!vm.prototype.hasOwnProperty(key)) {
-  //     Vue.prototype[key] = jsComp[key];
-  //   }else{
-  //     console.warn( key + '被占用')
-  //   }
-  // }
+  for (const key in jsComp) {
+    if (!vm.prototype.hasOwnProperty(key)) {
+      Vue.prototype[key] = jsComp[key];
+    }else{
+      console.warn( key + '被占用')
+    }
+  }
 }
 export default {
   install,

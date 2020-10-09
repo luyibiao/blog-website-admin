@@ -13,27 +13,15 @@
           <el-button type="primary">查询</el-button>
         </el-form-item>
          <el-form-item>
-          <el-button type="primary" @click="dialogVisible = true">新增标签</el-button>
+          <el-button type="primary" @click="onPopup">新增标签</el-button>
         </el-form-item>
       </el-form>
     </div>
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="30%"
-      >
-      <el-input 
-          style="width: 260px;" 
-          v-model="label"></el-input>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="aa">确 定</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
 <script>
+import add from '../components/add'
 export default {
   data() {
     return {
@@ -46,9 +34,9 @@ export default {
   },
 
   methods: {
-    aa() {
-      this.$api.addLabel({
-        label: this.label
+    onPopup() {
+      this.$popup(add).then(res => {
+        console.log(res)
       })
     }
   },
