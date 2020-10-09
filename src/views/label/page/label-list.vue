@@ -17,12 +17,17 @@
         </el-form-item>
       </el-form>
     </div>
+    <blist></blist>
   </div>
 </template>
 
 <script>
 import add from '../components/add'
+import blist from '../components/list'
 export default {
+  components: {
+    blist
+  },
   data() {
     return {
       forms: {

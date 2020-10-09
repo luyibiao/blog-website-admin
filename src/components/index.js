@@ -11,10 +11,14 @@ import popup from './popup';
 // js方法
 import jsComp from './js';
 
+// table
+import table from './btable'
+
 var conponents = [
   ...iconfont,
   ...quill,
   ...popup,
+  ...table
 ]
 
 
