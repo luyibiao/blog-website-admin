@@ -35,8 +35,8 @@
     <el-pagination
         v-if="hasPagination"
         @size-change="getTableData(pageIndex = 1)"
-        @current-change="getTableData"
-        :current-page.sync="pageIndex"
+        @current-change="currentChange"
+        
         :page-sizes="[10, 20, 30, 40]"
         :page-size.sync="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
@@ -51,6 +51,10 @@ import chhColumn from "./column";
 export default {
     name: 'bTable',
     props: {
+        forms: {
+            type: Object,
+            default: () => ({})
+        },
         // 请求参数
         action:{
             type: String,
@@ -108,7 +112,7 @@ export default {
             sort: [],
             tableData: [],
             pageSize: 10,
-            pageIndex: 0,
+            pageIndex: 1,
             total: 0,
         };
     },
@@ -119,21 +123,24 @@ export default {
 
     },
     methods: {
+        currentChange(v) {
+            this.pageIndex = v
+            this.getTableData()
+        },
         //获取列表数据
         getTableData () {
             this.loading = true;
             var paramStr = JSON.stringify(JSON.parse(this.paramStr).concat(this.sort))
             var sendData = {
-                queryParam: paramStr,
                 pageSize: this.pageSize,
-                pageIndex: this.pageIndex
+                pageIndex: this.pageIndex - 1,
+                ...this.forms
             }
             this.$api[this.action](sendData).then(res => {
                 this.tableData = res.list;
                 this.total = res.total;
-                this.pageSize = res.pageIndex + 1;
-                this.pageSize = pageSize;
                 this.loading = false
+                console.log(this.total, this.pageSize)
             }).catch(() => {
                 this.loading = false
             });
@@ -157,3 +164,17 @@ export default {
     }
 };
 </script>
+
+<style lang="scss">
+    .table-container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        .el-table {
+            flex: 1;
+        }
+        .el-table__body {
+            // height: 800px;
+        }
+    }
+</style>

@@ -7,17 +7,17 @@
           style="width: 260px;" 
           size="medium" 
           placeholder="输入标签名称查询" 
-          v-model="forms.keywords"></el-input>
+          v-model="forms.label"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">查询</el-button>
+          <el-button type="primary" @click="onSearch">查询</el-button>
         </el-form-item>
          <el-form-item>
           <el-button type="primary" @click="onPopup">新增标签</el-button>
         </el-form-item>
       </el-form>
     </div>
-    <blist></blist>
+    <blist :refresh="refresh" :forms="forms"></blist>
   </div>
 </template>
 
@@ -31,10 +31,11 @@ export default {
   data() {
     return {
       forms: {
-        keywords: ''
+        label: ''
       },
       dialogVisible: false,
-      label: ''
+      label: '',
+      refresh: false
     }
   },
 
@@ -43,6 +44,9 @@ export default {
       this.$popup(add).then(res => {
         console.log(res)
       })
+    },
+    onSearch() {
+      this.refresh = !this.refresh
     }
   },
 }
