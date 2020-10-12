@@ -8,5 +8,13 @@ export default {
   // 查询标签
   queryLabelList(data) {
     return axios.post('/label/list', data)
+  },
+  // 修改标签
+  updateLabel(data) {
+    return axios.post('/label/update', data)
+  },
+  // 删除标签
+  deleteLabel(data) {
+    return axios.post('/label/delete', data)
   }
 }

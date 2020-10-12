@@ -17,12 +17,15 @@
         </el-form-item>
       </el-form>
     </div>
-    <blist :refresh="refresh" :forms="forms"></blist>
+    <blist 
+    @change="refreshFn"
+    :refresh="refresh" 
+    :forms="forms"></blist>
   </div>
 </template>
 
 <script>
-import add from '../components/add'
+import add from '../components/edit'
 import blist from '../components/list'
 export default {
   components: {
@@ -42,10 +45,13 @@ export default {
   methods: {
     onPopup() {
       this.$popup(add).then(res => {
-        console.log(res)
+        this.refresh = !this.refresh
       })
     },
     onSearch() {
+      this.refresh = !this.refresh
+    },
+    refreshFn() {
       this.refresh = !this.refresh
     }
   },

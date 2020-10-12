@@ -140,7 +140,6 @@ export default {
                 this.tableData = res.list;
                 this.total = res.total;
                 this.loading = false
-                console.log(this.total, this.pageSize)
             }).catch(() => {
                 this.loading = false
             });

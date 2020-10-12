@@ -34,10 +34,10 @@ function switchType(code, data) {
   const vm = new Vue()
   switch (code) {
     case '00':
-      vm.$message.error(data.err || '请求错误')
+      vm.$message.error(data.msg || '请求错误')
       break;
     case '-1':
-      vm.$message.error(data.err || '请重新登录')
+      vm.$message.error(data.msg || '请重新登录')
       $router.push({path: '/login'})
       break;
     default:

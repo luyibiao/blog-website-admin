@@ -31,4 +31,13 @@ export default {
       currentTitle: currentTitle || $vue.$route.meta.title
     })
   },
+
+  // 判断对象是否为空
+  emptyObj(val, isEnumerable = false) {
+    return !!(Object.prototype.toString.call(val) === '[object Object]' ? 
+    isEnumerable ? 
+    Reflect.ownKeys(val) : 
+    Object.keys(val).length : 
+    false)
+  }
 }
