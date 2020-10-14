@@ -18,7 +18,7 @@
         </el-form-item>
         <el-form-item label="文章logo" >
           <el-upload
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action="http://192.168.100.169:8080/api/upload/upload"
             list-type="picture-card"
             :limit="1"
             style="width: 50px"

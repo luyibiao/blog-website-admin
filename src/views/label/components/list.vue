@@ -27,10 +27,21 @@ export default {
       columns: [
         {label: '标签名称', prop: 'label'},
         {
+          label: '使用次数', 
+          prop: 'use_num',
+        },
+        {
           label: '创建时间', 
           prop: 'create_time',
           render: scope => (
             <span>{this.$vueFilters.formatDatetime(scope.row.create_time, 'yyyy-MM-dd')}</span>
+          )
+        },
+        {
+          label: '修改时间', 
+          prop: 'update_time',
+          render: scope => (
+            <span>{scope.row.update_time}</span>
           )
         },
         {
