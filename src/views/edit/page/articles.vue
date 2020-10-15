@@ -28,9 +28,39 @@
         </el-form-item>
        
         <el-form-item label="标签" >
-          <!-- <el-select v-model="form.label" style="width: 150px;" size="medium">
-            <el-option></el-option>
-          </el-select> -->
+          <div>
+            <el-tag 
+            style="margin-right: 10px;"
+            v-for="(item, index) in selectList" 
+            :key="index">
+              {{item.label}}
+            </el-tag>
+            <el-button 
+            size="mini" 
+            type="primary" 
+            plain 
+            @click="onShowLabel">+ 增加标签</el-button>
+          </div>
+        </el-form-item>
+
+        <el-form-item label="文章简介" >
+          <el-input 
+          type="textarea"
+          v-model="form.desc" 
+          style="width: 320px" 
+          :autosize="{
+            minRows: 5, maxRows: 6
+          }"
+          placeholder="请输入文章简介"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="文章简介" >
+          <el-select v-model="form.type">
+            <el-option v-for="(item, index) in typeList" :key="index">
+              
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
     </div>
@@ -41,8 +71,10 @@
 </template>
 
 <script>
+import addLabelList from '../components/addLabel'
 export default {
   name: '',
+  
   data() {
     return {
       form: {
@@ -53,8 +85,33 @@ export default {
         // 标签
         label: '',
         // 富文本内容
-        content: '11'
-      }
+        content: '11',
+        // 文章简介
+        desc: '',
+        // 文章类型
+        type: ''
+      },
+      selectList: [],
+      typeList: []
+    }
+  },
+  created() {
+    this.getArticleType()
+  },
+  methods: {
+    getArticleType() {
+      this.$api.queryArticleType().then(res => {
+        this.typeList = res.list
+      })
+    },
+    onShowLabel() {
+      this.$popup(addLabelList, {
+        list: this.selectList
+      }).then(res => {
+        this.selectList = res
+      }).catch(e => {
+        console.log(e)
+      })
     }
   },
 }

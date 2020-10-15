@@ -39,5 +39,10 @@ export default {
     Reflect.ownKeys(val) : 
     Object.keys(val).length : 
     false)
-  }
+  },
+
+  // 文章类型
+  articlesType: [{
+    name: '技术分享'
+  }]
 }
