@@ -41,6 +41,13 @@ export default {
     false)
   },
 
+  // 文章状态
+  statusList: [
+    // 上线装填
+    {code: 'LINE', name: '上线'},
+    {code: 'OFFLINE', name: '下线'},
+  ],
+
   // 文章类型
   articlesType: [{
     name: '技术分享'

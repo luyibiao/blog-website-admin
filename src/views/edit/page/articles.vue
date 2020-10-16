@@ -1,15 +1,21 @@
 <template>
   <div class="edit-articles">
-    <div class="edit-articles_forms">
-      <el-form ref="ruleform" :model="form" label-position="right" label-width="80px">
-        <el-form-item label="文章标题">
+    <div class="edit-articles_forms" v-loading="loading">
+      <el-form 
+      ref="ruleform" 
+      :model="form" 
+      label-position="right" 
+      label-width="80px">
+        <el-form-item label="文章标题" 
+        prop="title"
+        :rules="isEmpty('标题不能为空')">
           <el-input 
           placeholder="请输入标题"
           v-model="form.title" 
           style="width: 300px" 
           size="medium"></el-input>
         </el-form-item>
-        <el-form-item label="作者" >
+        <el-form-item label="作者" :rules="isEmpty('作者不能为空')" prop="author">
           <el-input 
           v-model="form.author" 
           style="width: 120px" 
@@ -17,21 +23,14 @@
           size="medium"></el-input>
         </el-form-item>
         <el-form-item label="文章logo" >
-          <el-upload
-            action="http://192.168.100.169:8080/api/upload/upload"
-            list-type="picture-card"
-            :limit="1"
-            style="width: 50px"
-            >
-            <i class="el-icon-plus"></i>
-          </el-upload>
+          <b-upload @on-success="uploadSuccess"/>
         </el-form-item>
        
         <el-form-item label="标签" >
           <div>
             <el-tag 
             style="margin-right: 10px;"
-            v-for="(item, index) in selectList" 
+            v-for="(item, index) in selectArr" 
             :key="index">
               {{item.label}}
             </el-tag>
@@ -43,29 +42,40 @@
           </div>
         </el-form-item>
 
-        <el-form-item label="文章简介" >
+        <el-form-item 
+        prop="contentdesc"
+        :rules="isEmpty('文章简介不能为空')"
+        label="文章简介" >
           <el-input 
           type="textarea"
-          v-model="form.desc" 
+          v-model="form.contentdesc" 
           style="width: 320px" 
           :autosize="{
             minRows: 5, maxRows: 6
           }"
+          :maxlength="600"
+          show-word-limit
           placeholder="请输入文章简介"
           ></el-input>
         </el-form-item>
 
-        <el-form-item label="文章简介" >
+        <el-form-item label="文章类型" :rules="isEmpty('文章类型不能为空')">
           <el-select v-model="form.type">
-            <el-option v-for="(item, index) in typeList" :key="index">
-              
-            </el-option>
+            <el-option 
+            :label="item.name"
+            :value="item.code"
+            v-for="(item, index) in typeList" 
+            :key="index" />
           </el-select>
         </el-form-item>
       </el-form>
     </div>
     <div class="edit-articles_quill">
       <b-quill v-model="form.content"/>
+      <div class="btn">
+        <el-button style="margin-right: 30px;" @click="ondraft">存为草稿</el-button>
+        <el-button type="primary" @click="submit">发布</el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -85,33 +95,88 @@ export default {
         // 标签
         label: '',
         // 富文本内容
-        content: '11',
+        content: '',
         // 文章简介
-        desc: '',
+        contentdesc: '',
         // 文章类型
-        type: ''
+        type: 1,
+        // 是否为草稿， 1不为草稿
+        draft: 1,
+        // 文章状态为上线状态
+        status: 'LINE',
+        logoPath: '',
+        logonName: ''
       },
-      selectList: [],
-      typeList: []
+      selectArr: [],
+      typeList: [],
+      loading: false
     }
   },
   created() {
     this.getArticleType()
   },
   methods: {
+    // 获取文章类型列表
     getArticleType() {
       this.$api.queryArticleType().then(res => {
         this.typeList = res.list
       })
     },
+
+    // 打开选择标签弹框
     onShowLabel() {
-      this.$popup(addLabelList, {
-        list: this.selectList
-      }).then(res => {
-        this.selectList = res
+      const sendData = {
+        list: [
+          ...this.selectArr
+        ]
+      }
+      this.$popup(addLabelList, sendData).then(res => {
+        this.selectArr = res
       }).catch(e => {
         console.log(e)
       })
+    },
+
+    // 图片上传成功
+    uploadSuccess(file) {
+      this.form.logoPath = file.path
+      this.form.logonName = file.fName
+    },
+    
+    // 发布文章
+    submit() {
+      if (!this.form.content) {
+        this.$message.error('内容不能为空')
+        return
+      }
+      this.loading = true
+      this.form.label = JSON.stringify(this.selectArr)
+      this.$api.addArticle(this.form).then(res => {
+        this.$message.success('发布成功')
+        this.loading = false
+        setTimeout(_ => {
+          this.$router.replace({
+            path: '/all'
+          })
+        }, 200)
+      }).catch(e => {
+        // this.$message.error('上传失败')
+        this.loading = false
+      })
+    },
+
+    // 存为草稿
+    ondraft() {
+      this.form.draft = 0
+      this.submit()
+    },
+
+    isEmpty(msg) {
+      return [{
+        required: true,
+        message: msg,
+        trigger: 'blur'
+      }]
     }
   },
 }
@@ -131,6 +196,10 @@ export default {
       max-width: 1200px;
       // flex: 1;
       height: 800px;
+      > .btn {
+        margin: 20px 0 60px;
+        text-align: center;
+      }
     }
   }
 </style>

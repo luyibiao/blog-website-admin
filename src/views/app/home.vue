@@ -77,7 +77,7 @@ export default {
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 10px 20px 70px;
+    padding: 25px 20px 70px;
     box-sizing: border-box;
     width: 100%;
     overflow-y: auto;

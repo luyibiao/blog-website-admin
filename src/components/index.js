@@ -14,11 +14,19 @@ import jsComp from './js';
 // table
 import table from './btable'
 
+// 图片上传
+import upload from './upload'
+
+// 基础组件
+import tableLayout from './basic'
+
 var conponents = [
   ...iconfont,
   ...quill,
   ...popup,
-  ...table
+  ...table,
+  ...upload,
+  ...tableLayout
 ]
 
 

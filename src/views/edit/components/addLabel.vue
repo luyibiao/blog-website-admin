@@ -44,11 +44,12 @@ export default {
         pageSize: 20,
         pageIndex: 0,
       },
-      selectList: []
+      selectList: [],
+      resList: []
     }
   },
   created() {
-    this.selectList = this.params.list
+    this.selectList = this.params.list || []
     this.getList()
   },
   methods: {
@@ -92,7 +93,8 @@ export default {
       this.reject()
     },
     onSubmit() {
-      this.resolve(this.selectList)
+      const list = JSON.parse(JSON.stringify(this.selectList))
+      this.resolve(list)
     }
   },
 }

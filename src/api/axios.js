@@ -24,6 +24,7 @@ instance.interceptors.response.use((response) => {
     return response
   } else {
     switchType(data.code, response.data)
+    return response
   }
 }, (err) => {
   console.log(err)
@@ -34,7 +35,7 @@ function switchType(code, data) {
   const vm = new Vue()
   switch (code) {
     case '00':
-      vm.$message.error(data.msg || '请求错误')
+      vm.$message.error(data.msg.message || '请求错误')
       break;
     case '-1':
       vm.$message.error(data.msg || '请重新登录')
@@ -50,6 +51,7 @@ export default {
   post(url, params) {
     return new Promise((resolve, reject) => {
       instance.post(url, params).then(result => {
+        console.log(result)
         const {data} = result
         data.code === '1' ? resolve(data.data) : reject(data)
       }).catch(e => {
