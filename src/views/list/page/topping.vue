@@ -1,6 +1,27 @@
 <!--置顶文章-->
 <template>
   <div class="article-topping">
-    置顶文章
+    <tables :formsProp="forms"/>
   </div>
 </template>
+
+<script>
+import tables from '../components/tables'
+
+export default {
+  components: {
+    tables
+  },
+  data() {
+    return {
+      forms: {
+        topping: '1'
+      }
+    }
+  },
+}
+</script>
+
+<style lang="scss">
+  .article-topping {}
+</style>

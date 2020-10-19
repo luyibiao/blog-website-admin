@@ -25,7 +25,7 @@ export default {
     },
     action: {
       type: String,
-      default: 'http://192.168.1.52:8080/api/upload/upload'
+      default: 'http://192.168.100.169:8080/api/upload/upload'
     },
     listType: {
       type: String,

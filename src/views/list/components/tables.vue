@@ -27,13 +27,19 @@
               placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onSearch">搜索</el-button>
+          </el-form-item>
         </el-form>
       </template>
       <template>
         <b-table 
         action="queryArticle" 
         hasPagination
-        :forms="forms"
+        :forms="{
+          ...forms,
+          ...formsProp
+        }"
         :refresh="refresh"
         :columns="columns" />
         </template>
@@ -56,9 +62,9 @@ export default {
     hotcBtn,
   },
   props: {
-    refresh: {
-      type: Boolean,
-      default: false
+    formsProp: {
+      type: Object,
+      default: () => ({})
     }
   },
   data() {
@@ -68,6 +74,7 @@ export default {
         create_time: '',
         type: ''
       },
+      refresh: false,
       typeList: [],
       columns: [{
         label: '文章标题',
@@ -164,6 +171,10 @@ export default {
     this.getTypeList()
   },
   methods: {
+    // 搜索
+    onSearch() {
+      this.refresh = !this.refresh
+    },
     getTypeList() {
       this.$api.queryArticleType().then(res => {
         this.typeList = res.list

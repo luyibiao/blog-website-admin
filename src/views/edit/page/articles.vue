@@ -156,7 +156,7 @@ export default {
         this.loading = false
         setTimeout(_ => {
           this.$router.replace({
-            path: '/all'
+            path: '/list/all'
           })
         }, 200)
       }).catch(e => {

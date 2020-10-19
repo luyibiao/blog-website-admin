@@ -1,6 +1,27 @@
 <!--上线文章-->
 <template>
   <div class="article-line">
-    上线文章
+    <tables :formsProp="forms"/>
   </div>
 </template>
+
+<script>
+import tables from '../components/tables'
+
+export default {
+  components: {
+    tables
+  },
+  data() {
+    return {
+      forms: {
+        status: 'LINE'
+      }
+    }
+  },
+}
+</script>
+
+<style lang="scss">
+  .article-line {}
+</style>

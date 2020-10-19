@@ -134,7 +134,6 @@ export default {
         //获取列表数据
         getTableData () {
             this.loading = true;
-            var paramStr = JSON.stringify(JSON.parse(this.paramStr).concat(this.sort))
             var sendData = {
                 pageSize: this.pageSize,
                 pageIndex: this.pageIndex - 1,
@@ -152,6 +151,11 @@ export default {
         sortChange(sort){
             // this.sort = formatSort(sort);
             this.getTableData();
+        },
+
+        // 重置分页
+        resetPages() {
+            
         }
     },
     components: {
@@ -162,6 +166,7 @@ export default {
             this.getTableData();
         },
         refresh(){
+            this.pageIndex = 1
             this.getTableData();
         }
     }
