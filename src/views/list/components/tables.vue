@@ -79,7 +79,8 @@ export default {
       columns: [{
         label: '文章标题',
         prop: 'title',
-        width: '180px'
+        width: '180px',
+        render: scope => <router-link to={'/edit/articles?id=' + scope.row.id}>{scope.row.title}</router-link>
       }, {
         label: '文章作者',
         prop: 'author'

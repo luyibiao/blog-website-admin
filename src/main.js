@@ -32,8 +32,13 @@ router.beforeEach((to, from, next) => {
 
 window.$router = router
 
-window.$vue = new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+// 拿文章类型字典
+api.queryArticleType().then(res => {
+  store.commit('setArticleType', res.list)
+  window.$vue = new Vue({
+    router,
+    store,
+    render: h => h(App)
+  }).$mount('#app')
+})
+

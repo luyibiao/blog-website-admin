@@ -7,6 +7,7 @@
       style="width: 100%"
       :on-success	="onSuccess"
       :on-exceed="onExceed"
+      :file-list="fileList"
       >
       <i class="el-icon-plus"></i>
     </el-upload>

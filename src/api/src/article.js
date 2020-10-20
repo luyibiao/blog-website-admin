@@ -14,6 +14,11 @@ export default {
   // 修改文章
   updateArticle(data) {
     return axios.post('/article/update', data)
+  },
+
+  // 查询文章详情
+  queryArticleDetail(data) {
+    return axios.post('/article/detail', data)
   }
 }
 

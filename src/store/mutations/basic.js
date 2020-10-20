@@ -6,8 +6,10 @@ export default {
   },
   setUser(state, info) {
     state.user = info
-    console.log(info)
     // 登录后设置token， 2小时后过期
     cookie.cookieSet('token', info.token, 2)
+  },
+  setArticleType(state, val) {
+    state.articleType = val
   }
 }

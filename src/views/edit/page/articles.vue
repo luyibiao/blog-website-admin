@@ -23,7 +23,7 @@
           size="medium"></el-input>
         </el-form-item>
         <el-form-item label="文章logo" >
-          <b-upload @on-success="uploadSuccess"/>
+          <b-upload @on-success="uploadSuccess" :fileList="fileList"/>
         </el-form-item>
        
         <el-form-item label="标签" >
@@ -64,7 +64,7 @@
             <el-option 
             :label="item.name"
             :value="item.code"
-            v-for="(item, index) in typeList" 
+            v-for="(item, index) in getArticleType" 
             :key="index" />
           </el-select>
         </el-form-item>
@@ -73,7 +73,7 @@
     <div class="edit-articles_quill">
       <b-quill v-model="form.content"/>
       <div class="btn">
-        <el-button style="margin-right: 30px;" @click="ondraft">存为草稿</el-button>
+        <el-button style="margin-right: 30px;" @click="ondraft" v-if="!editFlag">存为草稿</el-button>
         <el-button type="primary" @click="submit">发布</el-button>
       </div>
     </div>
@@ -82,6 +82,7 @@
 
 <script>
 import addLabelList from '../components/addLabel'
+import { mapGetters } from 'vuex'
 export default {
   name: '',
   
@@ -109,21 +110,41 @@ export default {
       },
       selectArr: [],
       typeList: [],
-      loading: false
+      loading: false,
+      id: '',
+      fileList: [],
+      editFlag: false
     }
   },
+  computed: {
+    ...mapGetters(['getArticleType'])
+  },
   created() {
-    this.getArticleType()
+    this.id = this.$route.query.id || ''
+    if (this.id) {
+      this.editFlag = true
+      this.getDetail()
+    }
   },
   methods: {
-    // 获取文章类型列表
-    getArticleType() {
-      this.$api.queryArticleType().then(res => {
-        this.typeList = res.list
+    init(res) {
+      Object.keys(this.form).map(v => {
+        if (res.hasOwnProperty(v)) {
+          this.form[v] = res[v]
+        }
+      })
+      this.fileList.push({
+        url: res.logo
       })
     },
-
-    // 打开选择标签弹框
+    // 拿文章详情
+    getDetail() {
+      this.$api.queryArticleDetail({
+        id: this.id
+      }).then(res => {
+        this.init(res)
+      })
+    },
     onShowLabel() {
       const sendData = {
         list: [
@@ -141,6 +162,7 @@ export default {
     uploadSuccess(file) {
       this.form.logoPath = file.path
       this.form.logonName = file.fName
+      this.form.logo = ''
     },
     
     // 发布文章

@@ -10,5 +10,8 @@ export default {
   },
 
   // 登录人员信息
-  user: {}
+  user: {},
+
+  // 文章类型
+  articleType: []
 }
