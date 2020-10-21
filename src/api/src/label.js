@@ -16,5 +16,9 @@ export default {
   // 删除标签
   deleteLabel(data) {
     return axios.post('/label/delete', data)
+  },
+  // 设置热门标签
+  updateHotLabel(data) {
+    return axios.post('/label/hot', data)
   }
 }

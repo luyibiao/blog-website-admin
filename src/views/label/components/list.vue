@@ -48,6 +48,7 @@ export default {
           label: '操作',
           render: scope => (
             <div>
+              <el-button type="text" onClick={this.setHot.bind(this, scope.row)}>{scope.row.hot == 1 ? "取消热门" : '设为热门'}</el-button>
               <el-button type="text" onClick={this.editLabel.bind(this, scope.row)}>编辑</el-button>
               <el-button type="text" onClick={this.deleteLabel.bind(this, scope.row)}>删除</el-button>
             </div>
@@ -76,6 +77,16 @@ export default {
           this.$emit('change')
         })
       })
+    },
+    setHot(row) {
+      const sendData = {
+        id: row.id,
+        hot: row.hot == 1 ? '0' : '1'
+      }
+      this.$api.updateHotLabel(sendData).then(res => {
+        this.$message.success('设置成功')
+        this.$emit('change')
+      }).catch(e => {})
     }
   },
 }

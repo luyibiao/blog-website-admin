@@ -23,9 +23,6 @@ export default {
         label: 'banner图',
         name: 'banner'
       }, {
-        label: '热评文章',
-        name: 'hot-article'
-      }, {
         label: '趣事',
         name: 'fun'
       }, {
