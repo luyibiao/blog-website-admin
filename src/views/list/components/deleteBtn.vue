@@ -1,6 +1,6 @@
 <template>
   <el-button type="text" size="mini" @click="click">
-    发布
+    删除
   </el-button>
 </template>
 
@@ -20,7 +20,6 @@ export default {
     click() {
       this.callback && this.callback({
         id: this.info.id,
-        status: 'LINE'
       })
     }
   },

@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       forms: {
-        draft: '0'
+        status: 'DRAFT'
       }
     }
   },

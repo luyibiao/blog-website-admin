@@ -74,7 +74,7 @@
       <b-quill v-model="form.content"/>
       <div class="btn">
         <el-button style="margin-right: 30px;" @click="ondraft" v-if="!editFlag">存为草稿</el-button>
-        <el-button type="primary" @click="submit">发布</el-button>
+        <el-button type="primary" @click="submit">{{editFlag ? '修改' : '发布'}}</el-button>
       </div>
     </div>
   </div>
@@ -101,8 +101,6 @@ export default {
         contentdesc: '',
         // 文章类型
         type: 1,
-        // 是否为草稿， 1不为草稿
-        draft: 1,
         // 文章状态为上线状态
         status: 'LINE',
         logoPath: '',
@@ -133,6 +131,7 @@ export default {
           this.form[v] = res[v]
         }
       })
+      this.selectArr = JSON.parse(this.form.label || '[]')
       this.fileList.push({
         url: res.logo
       })
@@ -173,8 +172,16 @@ export default {
       }
       this.loading = true
       this.form.label = JSON.stringify(this.selectArr)
-      this.$api.addArticle(this.form).then(res => {
-        this.$message.success('发布成功')
+      const sendData = {
+        ...this.form
+      }
+      if (this.editFlag) {
+        sendData.id = this.id
+      }
+      const action = this.editFlag ? 'updateArticle' : 'addArticle'
+      const msg = this.editFlag ? '修改成功' : '新增成功'
+      this.$api[action](sendData).then(res => {
+        this.$message.success(msg)
         this.loading = false
         setTimeout(_ => {
           this.$router.replace({
@@ -189,7 +196,7 @@ export default {
 
     // 存为草稿
     ondraft() {
-      this.form.draft = 0
+      this.form.status = 'DRAFT'
       this.submit()
     },
 

@@ -19,6 +19,11 @@ export default {
   // 查询文章详情
   queryArticleDetail(data) {
     return axios.post('/article/detail', data)
+  },
+
+  // 删除文章
+  deleteArticle(data) {
+    return axios.post('/article/delete', data)
   }
 }
 

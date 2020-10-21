@@ -35,7 +35,7 @@ function switchType(code, data) {
   const vm = new Vue()
   switch (code) {
     case '00':
-      vm.$message.error(data.msg.message || '请求错误')
+      vm.$message.error(data.msg || '请求错误')
       break;
     case '-1':
       vm.$message.error(data.msg || '请重新登录')

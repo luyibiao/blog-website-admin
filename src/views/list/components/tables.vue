@@ -1,8 +1,8 @@
 <template>
-  <div class="article-components-tables">
+  <div class="article-components-tables" v-loading="loading">
     <table-layout>
       <template #form>
-        <el-form :model="forms" inline label-width="80px">
+        <el-form :model="forms" inline  label-position="left">
           <el-form-item label="标题">
             <el-input v-model="forms.title" style="width: 220px;"></el-input>
           </el-form-item>
@@ -54,12 +54,14 @@ import draftBtn from './draft'
 import toppingBtn from './topping'
 import hotcBtn from './hotc'
 import topping from './topping'
+import deleteBtn from './deleteBtn'
 export default {
   components: {
     statusBtn,
     draftBtn,
     toppingBtn,
     hotcBtn,
+    deleteBtn
   },
   props: {
     formsProp: {
@@ -75,6 +77,7 @@ export default {
         type: ''
       },
       refresh: false,
+      loading: false,
       typeList: [],
       columns: [{
         label: '文章标题',
@@ -152,7 +155,7 @@ export default {
         render: scope => {
           const row = scope.row
           let ele = null
-          if (row.draft == 0) {
+          if (row.status == 'DRAFT') {
             ele = <draftBtn info={row} callback={this.callback}></draftBtn>
           } else {
             ele = (
@@ -163,7 +166,12 @@ export default {
               </div>
             )
           }
-          return ele
+          return (
+            <div>
+              {ele}
+              <deleteBtn info={scope.row} callback={this.deleteFn}></deleteBtn>
+            </div>
+          )
         }
       }]
     }
@@ -182,13 +190,34 @@ export default {
       })
     },
     callback(data) {
-      
+      this.loading = true
       this.$api.updateArticle({
         check: 1,
         ...data
       }).then(res => {
         this.$message.success('修改成功')
         this.refresh = !this.refresh
+        this.loading = false
+      }).catch(e => {
+        this.loading = false
+      })
+    },
+
+    // 删除文章
+    deleteFn(data) {
+      this.$confirm('确定删除该文章？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(_ => {
+        this.loading = true
+        this.$api.deleteArticle(data).then(res => {
+          this.$message.success('删除成功')
+          this.refresh = !this.refresh
+          this.loading = false
+        }).catch(e => {
+          this.loading = false
+        })
       })
     }
   },
@@ -203,6 +232,12 @@ export default {
     }
     .article-components_label {
       margin-right: 6px;
+    }
+    .el-button+.el-button {
+      margin-left: 0;
+    }
+    .el-button {
+      margin-right: 10px;
     }
   }
 </style>
