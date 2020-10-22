@@ -24,7 +24,7 @@ const menu = {
         children: labelMenu
     },
     session: {
-        name: '权限设置',
+        name: '系统管理',
         children: sessionMenu
     }
 }

@@ -42,6 +42,6 @@ export default {
 
 <style lang="scss">
   .edit-home-info {
-    margin-top: 20px;
+    // margin-top: 20px;
   }
 </style>

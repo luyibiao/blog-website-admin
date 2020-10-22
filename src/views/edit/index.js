@@ -10,14 +10,4 @@ export default [
       isMenu: true
     }
   },
-
-  {
-    path: '/edit/home-info',
-    name: 'home-info',
-    component: () => import(/* webpackChunkName: "home-info" */ './page/home-info'),
-    meta: {
-      title: '首页配置',
-      isMenu: true
-    }
-  }
 ]

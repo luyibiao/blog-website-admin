@@ -170,27 +170,30 @@ export default {
         this.$message.error('内容不能为空')
         return
       }
-      this.loading = true
-      this.form.label = JSON.stringify(this.selectArr)
-      const sendData = {
-        ...this.form
-      }
-      if (this.editFlag) {
-        sendData.id = this.id
-      }
-      const action = this.editFlag ? 'updateArticle' : 'addArticle'
-      const msg = this.editFlag ? '修改成功' : '新增成功'
-      this.$api[action](sendData).then(res => {
-        this.$message.success(msg)
-        this.loading = false
-        setTimeout(_ => {
-          this.$router.replace({
-            path: '/list/all'
-          })
-        }, 200)
-      }).catch(e => {
-        // this.$message.error('上传失败')
-        this.loading = false
+      this.$refs.ruleform.validate(valid => {
+        if (!valid) return
+        this.loading = true
+        this.form.label = JSON.stringify(this.selectArr)
+        const sendData = {
+          ...this.form
+        }
+        if (this.editFlag) {
+          sendData.id = this.id
+        }
+        const action = this.editFlag ? 'updateArticle' : 'addArticle'
+        const msg = this.editFlag ? '修改成功' : '新增成功'
+        this.$api[action](sendData).then(res => {
+          this.$message.success(msg)
+          this.loading = false
+          setTimeout(_ => {
+            this.$router.replace({
+              path: '/list/all'
+            })
+          }, 200)
+        }).catch(e => {
+          // this.$message.error('上传失败')
+          this.loading = false
+        })
       })
     },
 

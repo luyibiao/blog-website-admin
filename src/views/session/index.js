@@ -10,4 +10,22 @@ export default [
       isMenu: true
     }
   },
+  {
+    path: '/session/about-mine',
+    name: 'about-mine',
+    component: () => import(/* webpackChunkName: "about-mine" */ './page/about-mine'),
+    meta: {
+      title: '关于我',
+      isMenu: true
+    }
+  },
+  {
+    path: '/session/banner',
+    name: 'banner',
+    component: () => import(/* webpackChunkName: "banner" */ './page/banner'),
+    meta: {
+      title: 'banner配置',
+      isMenu: true
+    }
+  }
 ]
