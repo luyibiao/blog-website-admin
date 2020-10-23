@@ -22,10 +22,18 @@ export default [
   {
     path: '/session/banner',
     name: 'banner',
-    component: () => import(/* webpackChunkName: "banner" */ './page/banner'),
+    component: () => import(/* webpackChunkName: "banner" */ './page/banner/banner'),
     meta: {
       title: 'banner配置',
       isMenu: true
+    }
+  },
+  {
+    path: '/session/banner-edit',
+    name: 'banner-edit',
+    component: () => import(/* webpackChunkName: "banner-edit" */ './page/banner/banner-edit'),
+    meta: {
+      title: '增加banner',
     }
   }
 ]

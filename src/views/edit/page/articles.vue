@@ -23,7 +23,10 @@
           size="medium"></el-input>
         </el-form-item>
         <el-form-item label="文章logo" >
-          <b-upload @on-success="uploadSuccess" :fileList="fileList"/>
+          <b-upload 
+          @on-remove="uploadRemove"
+          @on-success="uploadSuccess" 
+          :fileList="fileList"/>
         </el-form-item>
        
         <el-form-item label="标签" >
@@ -104,10 +107,10 @@ export default {
         // 文章状态为上线状态
         status: 'LINE',
         logoPath: '',
-        logonName: ''
+        logonName: '',
+        logo: ''
       },
       selectArr: [],
-      typeList: [],
       loading: false,
       id: '',
       fileList: [],
@@ -161,7 +164,10 @@ export default {
     uploadSuccess(file) {
       this.form.logoPath = file.path
       this.form.logonName = file.fName
-      this.form.logo = ''
+    },
+
+    uploadRemove() {
+      this.forms.logo = ''
     },
     
     // 发布文章

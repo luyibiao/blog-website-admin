@@ -7,6 +7,7 @@
     :close-on-click-modal="false" 
     :close-on-press-escape="false"
     @closed="closed" 
+    :top="top"
   >
     <div class="popup__body">
       <slot >这是一段信息</slot>
@@ -24,7 +25,7 @@
 <script>
   export default {
     name:'ui-popup',
-    props: ['value','title','width', 'isFooter'],
+    props: ['value','title','width', 'isFooter', 'top'],
     computed: {
       //visible控制器，点X时调用取消
       visible: {

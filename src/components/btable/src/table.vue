@@ -7,6 +7,8 @@
         :header-cell-class-name="tableAttr.headerRowClassName"
         :height="tableAttr.height" 
          @sort-change="sortChange"
+         :highlight-current-row="highlightCurrentRow"
+         @current-change="handleCurrentChange"
     >
       <template v-for="(column,index) in columns">
             <el-table-column 
@@ -81,6 +83,14 @@ export default {
             type: Boolean,
             default: false
         },
+        highlightCurrentRow: {
+            type: Boolean,
+            default: false
+        },
+        handleCurrentChanges: {
+            type: Function,
+            default: null
+        },
         // 表格配置
         tableAttr: {
             type: Object,
@@ -127,6 +137,9 @@ export default {
 
     },
     methods: {
+        handleCurrentChange(val) {
+            this.handleCurrentChanges && this.handleCurrentChanges(val)
+        },
         currentChange(v) {
             this.pageIndex = v
             this.getTableData()

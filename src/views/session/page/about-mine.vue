@@ -7,6 +7,7 @@
       <el-form-item label="头像">
         <b-upload
         @on-success="uploadSuccess" 
+        @on-remove="uploadRemove"
         :fileList="fileList"/>
       </el-form-item>
       <el-form-item label="个人说明" >
@@ -59,7 +60,8 @@ export default {
         // 详细说明
         content: '',
         logoPath: '',
-        logonName: ''
+        logonName: '',
+        avatar: ''
       },
       fileList: [],
       loading: false,
@@ -77,7 +79,7 @@ export default {
           this.forms[v] = res[v] || ''
         }
       })
-      if (res.logo) {
+      if (res.avatar) {
         this.fileList.push({
           url: res.avatar
         })
@@ -97,6 +99,9 @@ export default {
       this.forms.logoPath = file.path
       this.forms.logonName = file.fName
     },
+    uploadRemove() {
+      this.forms.avatar = ''
+    },
     cancel() {
       this.$router.go(-1)
     },
@@ -104,7 +109,12 @@ export default {
       this.$refs.ruleform.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$api.addMine(this.forms).then(res => {
+          const actions = this.id ? 'updateMine' : 'addMine'
+          let sendData = {...this.forms}
+          if (this.id) {
+            sendData.id = this.id
+          }
+          this.$api[actions](sendData).then(res => {
             this.loading = false
             this.$message.success('修改成功')
           }).catch(e => {

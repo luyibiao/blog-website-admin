@@ -15,7 +15,7 @@
               <el-option 
                 :label="item.name"
                 :value="item.code"
-                v-for="(item, index) in typeList" 
+                v-for="(item, index) in getArticleType" 
                 :key="index" />
             </el-select>
           </el-form-item>
@@ -55,6 +55,7 @@ import toppingBtn from './topping'
 import hotcBtn from './hotc'
 import topping from './topping'
 import deleteBtn from './deleteBtn'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     statusBtn,
@@ -78,7 +79,6 @@ export default {
       },
       refresh: false,
       loading: false,
-      typeList: [],
       columns: [{
         label: '文章标题',
         prop: 'title',
@@ -138,7 +138,7 @@ export default {
       }, {
         label: '文章类型',
         render: scope => (
-          <span>{this.$vueFilters.formatStatus(scope.row.type, this.typeList)}</span>
+          <span>{this.$vueFilters.formatStatus(scope.row.type, this.getArticleType)}</span>
         )
       }, {
         label: '创建时间',
@@ -176,19 +176,17 @@ export default {
       }]
     }
   },
+  computed: {
+    ...mapGetters(['getArticleType'])
+  },
   created() {
-    this.getTypeList()
   },
   methods: {
     // 搜索
     onSearch() {
       this.refresh = !this.refresh
     },
-    getTypeList() {
-      this.$api.queryArticleType().then(res => {
-        this.typeList = res.list
-      })
-    },
+    
     callback(data) {
       this.loading = true
       this.$api.updateArticle({

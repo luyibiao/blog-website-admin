@@ -6,6 +6,7 @@
       :limit="limit"
       style="width: 100%"
       :on-success	="onSuccess"
+      :on-remove="onRemove"
       :on-exceed="onExceed"
       :file-list="fileList"
       >
@@ -26,7 +27,7 @@ export default {
     },
     action: {
       type: String,
-      default: 'http://192.168.1.52:8080/api/upload/upload'
+      default: 'http://172.20.159.3:8080/api/upload/upload'
     },
     listType: {
       type: String,
@@ -53,6 +54,10 @@ export default {
         return
       }
       this.$emit('on-success', file.data)
+    },
+    onRemove(file, fileList) {
+      console.log(file, fileList)
+      this.$emit('on-remove', file, fileList)
     },
     onExceed() {
       this.$message.info('最多上传一张')

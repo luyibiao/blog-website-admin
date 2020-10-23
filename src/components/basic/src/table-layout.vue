@@ -1,6 +1,6 @@
 <template>
   <div class="table-layout">
-    <div class="table-layout_forms">
+    <div class="table-layout_forms" v-if="$slots.form">
       <slot name="form"></slot>
     </div>
     <div class="table-layout_list">

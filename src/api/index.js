@@ -5,11 +5,14 @@ import overall from './src/overall'
 import article from './src/article'
 // 权限部分接口
 import session from './src/session'
+// 轮播
+import banner from './src/banner'
 
 export default {
   ...login,
   ...label,
   ...overall,
   ...article,
-  ...session
+  ...session,
+  ...banner
 }
