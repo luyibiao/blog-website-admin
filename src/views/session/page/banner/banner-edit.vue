@@ -8,7 +8,7 @@
           :fileList="fileList"/>
       </el-form-item>
       <el-form-item label="类型">
-        <el-radio-group v-model="forms.type">
+        <el-radio-group v-model="forms.type" @change="change">
           <el-radio :label="1">本地跳转</el-radio>
           <el-radio :label="2">外链</el-radio>
         </el-radio-group>
@@ -16,7 +16,7 @@
       <template v-if="forms.type == 1">
         <el-form-item label="">
           <el-button type="primary" size="mini" @click="onSelectArticle">选择文章</el-button>
-          <span style="margin-left: 10px;color: #909399;" v-if="forms.article_id">已选择{{row.title}}</span>
+          <span style="margin-left: 10px;color: #909399;" v-if="forms.article_id">已选择{{forms.article_title}}</span>
         </el-form-item>
       </template>
       <template v-else-if="forms.type == 2">
@@ -44,13 +44,42 @@ export default {
         logonName: '',
         url: '',
         imgUrl: '',
-        article_id: ''
+        article_id: '',
+        article_title: '',
       },
       fileList: [],
-      row: {}
+      row: {},
+      id: ''
     }
   },
+  created() {
+    this.id = this.$route.query.id
+    this.id && (this.getDetail())
+  },
   methods: {
+    init(res) {
+      Object.keys(this.forms).map(v => {
+        if (res.hasOwnProperty(v)) {
+          this.forms[v] = res[v]
+        }
+      })
+      this.selectArr = JSON.parse(this.forms.label || '[]')
+      this.fileList.push({
+        url: res.imgUrl
+      })
+    },
+
+    getDetail() {
+      this.loading = true
+      this.$api.queryBannerDetail({
+        id: this.id
+      }).then(res => {
+        this.init(res)
+        this.loading = false
+      }).catch(e => {
+        this.loading = false
+      })
+    },
     // 图片上传成功
     uploadSuccess(file) {
       this.forms.logoPath = file.path
@@ -65,17 +94,40 @@ export default {
     onSelectArticle() {
       this.$popup(lineArticle).then(res => {
         this.forms.article_id = res.id
+        this.forms.article_title = res.title
         this.row = res
       })
     },
     save() {
+      if (!this.forms.logoPath && !this.forms.imgUrl) {
+        this.$message.error('图片不能为空')
+        return
+      }
+      if (this.forms.type == 1 && !this.forms.article_id) {
+        this.$message.error('跳转文章不能为空')
+        return
+      }
+      if(this.forms.type == 2 && !this.forms.url) {
+        this.$message.error('外链不能为空')
+        return
+      }
       this.loading = true
-      this.$api.addbnner(this.forms).then(res => {
+      const action = this.id ? 'updatebanner' : 'addbnner'
+      const sendData = {...this.forms}
+      if (this.id) sendData.id = this.id
+      this.$api[action](sendData).then(res => {
         this.$message.success('保存成功')
         this.$router.push('./banner')
       }).catch(e => {
         this.loading = false
       })
+    },
+
+    change(val) {
+      if (val === 2) {
+        this.forms.article_id = ''
+        this.forms.article_title = ''
+      }
     }
   },
 }

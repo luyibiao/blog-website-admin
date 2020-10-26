@@ -6,7 +6,7 @@
       </template>
       <template>
         <b-table 
-        action="queryArticle" 
+        action="querybanner" 
         hasPagination
         :forms="forms"
         :refresh="refresh"
@@ -22,28 +22,62 @@ export default {
     return {
       forms: {
         status: 'LINE',
-        refresh: false,
-        columns: [{
-          label: '序号',
-          type: 'index',
-        }, {
-          label: '图片',
-          prop: 'imgUrl'
-        }, {
-          label: '类型',
-          render: scope => (
-            <p>{scope.row.type == 1 ? '本地跳转' : '外链'}</p>
-          )
-        }, {
-          label: '操作',
-          render: scope => (
-            <div>
-              <el-button type="text">编辑</el-button>
-              <el-button type="text">删除</el-button>
-            </div>
-          )
-        }]
-      }
+      },
+      refresh: false,
+      columns: [{
+        label: '序号',
+        type: 'index',
+      }, {
+        label: '文章标题',
+        prop: 'article_title'
+      }, {
+        label: '图片',
+        prop: 'imgUrl',
+        render: scope => (
+          <img src={scope.row.imgUrl} class="session-banner-img"/>
+        )
+      }, {
+        label: '类型',
+        render: scope => (
+          <p>{scope.row.type == 1 ? '本地跳转' : '外链'}</p>
+        )
+      }, {
+        label: '操作',
+        render: scope => (
+          <div>
+            <el-button type="text" onClick={this.edit.bind(this, scope.row)}>编辑</el-button>
+            <el-button type="text" onClick={this.deletes.bind(this, scope.row)}>删除</el-button>
+          </div>
+        )
+      }]
+    }
+  },
+  methods: {
+    edit(row) {
+      this.$router.push({
+        name: 'banner-edit',
+        query: {
+          id: row.id
+        }
+      })
+    },
+    deletes(row) {
+      this.$confirm('确定删除？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(_ => {
+        this.loading = true
+        this.$api.deleteBanner({
+          id: row.id
+        }).then(_ => {
+          this.loading = false
+          this.$message.success('删除成功')
+          this.refresh = !this.refresh
+        }).catch(e => {
+          this.loading = false
+        })
+      })
     }
   },
 }
@@ -52,5 +86,9 @@ export default {
 <style lang="scss">
 .session-banner {
   height: 100%;
+  .session-banner-img {
+    width: 120px;
+    height: 80px;
+  }
 }
 </style>

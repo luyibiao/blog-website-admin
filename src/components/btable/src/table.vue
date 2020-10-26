@@ -19,6 +19,7 @@
                 :sortable="column.sortable"
                 :width="column.width || 'auto'"
                 :fixed="column.fixed || false"
+                :type="column.type"
             >
                 <template slot="header" v-if="column.header">
                     <chhColumn :column="column" action="header"></chhColumn>
@@ -35,6 +36,7 @@
                 :sortable="column.sortable"
                 :width="column.width || 'auto'"
                 :fixed="column.fixed || false"
+                :type="column.type"
             />
         </template>
     </el-table>
