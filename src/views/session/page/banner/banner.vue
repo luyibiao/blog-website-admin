@@ -7,7 +7,6 @@
       <template>
         <b-table 
         action="querybanner" 
-        hasPagination
         :forms="forms"
         :refresh="refresh"
         :columns="columns" />
@@ -29,8 +28,23 @@ export default {
         type: 'index',
       }, {
         label: '文章标题',
-        prop: 'article_title'
+        prop: 'article_title',
+        render: scope => {
+          let ele = null
+          const row = scope.row
+          if (row.article_id) {
+            ele = <router-link to={'/edit/articles?id=' + row.article_id}>{row.article_title}</router-link>
+          } else {
+            ele = <span>无</span>
+          }
+          return ele
+        }
       }, {
+        label: '文章状态',
+        render: scope => (
+          <p>{this.$vueFilters.formatStatus(scope.row.status, this.$overall.statusList) || '无'}</p>
+        )
+      },{
         label: '图片',
         prop: 'imgUrl',
         render: scope => (

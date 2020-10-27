@@ -8,7 +8,7 @@
           :fileList="fileList"/>
       </el-form-item>
       <el-form-item label="类型">
-        <el-radio-group v-model="forms.type" @change="change">
+        <el-radio-group v-model="forms.type">
           <el-radio :label="1">本地跳转</el-radio>
           <el-radio :label="2">外链</el-radio>
         </el-radio-group>
@@ -67,6 +67,8 @@ export default {
       this.fileList.push({
         url: res.imgUrl
       })
+
+      console.log(this.forms)
     },
 
     getDetail() {
@@ -112,6 +114,12 @@ export default {
         return
       }
       this.loading = true
+      if (this.forms.type == 1) {
+        this.forms.url = ''
+      } else {
+        this.forms.article_id = ''
+        this.forms.article_title = ''
+      }
       const action = this.id ? 'updatebanner' : 'addbnner'
       const sendData = {...this.forms}
       if (this.id) sendData.id = this.id
@@ -122,13 +130,6 @@ export default {
         this.loading = false
       })
     },
-
-    change(val) {
-      if (val === 2) {
-        this.forms.article_id = ''
-        this.forms.article_title = ''
-      }
-    }
   },
 }
 </script>
