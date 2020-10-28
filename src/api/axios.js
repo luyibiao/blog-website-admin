@@ -51,7 +51,6 @@ export default {
   post(url, params) {
     return new Promise((resolve, reject) => {
       instance.post(url, params).then(result => {
-        console.log(result)
         const {data} = result
         data.code === '1' ? resolve(data.data) : reject(data)
       }).catch(e => {
