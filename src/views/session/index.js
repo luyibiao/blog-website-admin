@@ -11,6 +11,23 @@ export default [
     }
   },
   {
+    path: '/session/column',
+    name: 'column',
+    component: () => import(/* webpackChunkName: "column" */ './page/column/column'),
+    meta: {
+      title: '栏目设置',
+      isMenu: true
+    }
+  },
+  {
+    path: '/session/column/add',
+    name: 'columnAdd',
+    component: () => import(/* webpackChunkName: "columnAdd" */ './page/column/add'),
+    meta: {
+      title: '增加栏目',
+    }
+  },
+  {
     path: '/session/about-mine',
     name: 'about-mine',
     component: () => import(/* webpackChunkName: "about-mine" */ './page/about-mine'),

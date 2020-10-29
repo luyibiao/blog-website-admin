@@ -67,7 +67,7 @@ export default {
     }
   },
   created() {
-    this.$api.queryWYYmusic()
+    
   },
   methods: {
     edit(row) {

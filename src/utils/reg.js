@@ -1,0 +1,1 @@
+export const pureCapitalizedEnglish = new RegExp(/^[A-Z]+$/)
