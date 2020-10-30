@@ -33,5 +33,9 @@ export default {
   // 修改二级栏目
   updateSecondsArticle(data) {
     return axios.post('/type/updateSecondsArticle', data)
+  },
+  // 根据一级栏目查询二级栏目
+  queryTypeOrSecondsType(data) {
+    return axios.post('/type/queryTypeOrSecondsType', data)
   }
 }

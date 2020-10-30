@@ -63,12 +63,20 @@
         </el-form-item>
 
         <el-form-item label="文章类型" :rules="isEmpty('文章类型不能为空')">
-          <el-select v-model="form.type">
+          <el-select v-model="form.type" style="width: 150px;" @change="typeChange">
             <el-option 
             :label="item.name"
             :value="item.code"
             v-for="(item, index) in getArticleType" 
             :key="index" />
+          </el-select>
+          <el-select v-model="form.child_type" style="margin-left: 15px;width: 150px;">
+            <el-option value="" label="不选"></el-option>
+            <el-option
+            :label="item.name"
+            :value="item.code"
+            v-for="(item, index) in articleItemlist" 
+            :key="index"/>
           </el-select>
         </el-form-item>
       </el-form>
@@ -103,7 +111,9 @@ export default {
         // 文章简介
         contentdesc: '',
         // 文章类型
-        type: 1,
+        type: 'SKILL',
+        // 文章二级栏目
+        child_type: '',
         // 文章状态为上线状态
         status: 'LINE',
         logoPath: '',
@@ -114,7 +124,8 @@ export default {
       loading: false,
       id: '',
       fileList: [],
-      editFlag: false
+      editFlag: false,
+      articleItemlist: []
     }
   },
   computed: {
@@ -126,6 +137,7 @@ export default {
       this.editFlag = true
       this.getDetail()
     }
+    this.typeChange(this.getArticleType[0].code)
   },
   methods: {
     init(res) {
@@ -157,6 +169,13 @@ export default {
         this.selectArr = res
       }).catch(e => {
         console.log(e)
+      })
+    },
+
+    // 拿文章子类型
+    typeChange(v) {
+      this.$api.queryTypeOrSecondsType({articletype_code: v}).then(res => {
+        this.articleItemlist = res.list
       })
     },
 

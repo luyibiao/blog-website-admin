@@ -11,11 +11,11 @@ export default {
   },
   // 修改标签
   updateLabel(data) {
-    return axios.post('/label/update', data)
+    return axios.post('/label/updateLabel', data)
   },
   // 删除标签
   deleteLabel(data) {
-    return axios.post('/label/delete', data)
+    return axios.post('/label/deleteLabel', data)
   },
   // 设置热门标签
   updateHotLabel(data) {

@@ -10,14 +10,22 @@
             <el-input v-model="forms.author" style="width: 150px;"></el-input>
           </el-form-item>
           <el-form-item label="文章类型">
-            <el-select v-model="forms.type" style="width: 120px;">
+            <el-select v-model="forms.type" style="width: 120px;" @change="typeChange">
               <el-option label="全部" value=""></el-option>
-              <el-option 
+                <el-option 
+                  :label="item.name"
+                  :value="item.code"
+                  v-for="(item, index) in getArticleType" 
+                  :key="index" />
+              </el-select>
+              <el-select v-model="forms.child_type" style="margin-left: 15px;width: 150px;">
+                <el-option value="" label="全部"></el-option>
+                <el-option
                 :label="item.name"
                 :value="item.code"
-                v-for="(item, index) in getArticleType" 
-                :key="index" />
-            </el-select>
+                v-for="(item, index) in articleItemlist" 
+                :key="index"/>
+              </el-select>
           </el-form-item>
           <el-form-item label="创建时间">
             <el-date-picker
@@ -75,7 +83,8 @@ export default {
       forms: {
         title: '',
         create_time: '',
-        type: ''
+        type: '',
+        child_type: ''
       },
       refresh: false,
       loading: false,
@@ -137,9 +146,18 @@ export default {
         }
       }, {
         label: '文章类型',
-        render: scope => (
-          <span>{this.$vueFilters.formatStatus(scope.row.type, this.getArticleType)}</span>
-        )
+        width: '150px',
+        render: scope => {
+          const row = scope.row
+          let ele = 
+          <span>
+              - {this.$vueFilters.formatStatus(scope.row.child_type, this.articleItemlist)}
+          </span>
+          
+          return (
+            <span>{this.$vueFilters.formatStatus(scope.row.type, this.getArticleType)} </span>
+          )
+        }
       }, {
         label: '创建时间',
         prop: 'create_time',
@@ -173,13 +191,15 @@ export default {
             </div>
           )
         }
-      }]
+      }],
+      articleItemlist: []
     }
   },
   computed: {
     ...mapGetters(['getArticleType'])
   },
   created() {
+    this.typeChange(this.getArticleType[0].code)
   },
   methods: {
     // 搜索
@@ -198,6 +218,13 @@ export default {
         this.loading = false
       }).catch(e => {
         this.loading = false
+      })
+    },
+
+    // 拿文章子类型
+    typeChange(v) {
+      this.$api.queryTypeOrSecondsType({articletype_code: v}).then(res => {
+        this.articleItemlist = res.list
       })
     },
 

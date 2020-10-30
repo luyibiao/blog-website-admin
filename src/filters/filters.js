@@ -161,7 +161,6 @@ Filters.formatDistance = function (distance) {
 // 过滤状态类型
 Filters.formatStatus = function(val, list) {
     if (!list || !list.length) return ''
-    console.log(val, list)
     const instance = list.find(v => val == v.code)
     return instance ? instance.name : ''
 }
