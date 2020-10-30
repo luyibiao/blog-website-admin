@@ -38,19 +38,22 @@ export default {
  
   methods: {
     save() {
-      this.loading = true
-      const sendData = {
-        ...this.forms,
-        articletype_id: this.params.id,
-        articletype_code: this.params.code
-      }
-      sendData.code = this.params.code + '-' + sendData.code
-      this.$api.addSecondsArticleType(sendData).then(res => {
-        this.$message.success('保存成功')
-        this.loading = false
-        this.resolve()
-      }).catch(e => {
-        this.loading = false
+      this.$refs.ruleform.validate(valid => {
+        if (!valid) return 
+        this.loading = true
+        const sendData = {
+          ...this.forms,
+          articletype_id: this.params.id,
+          articletype_code: this.params.code
+        }
+        sendData.code = this.params.code + '-' + sendData.code
+        this.$api.addSecondsArticleType(sendData).then(res => {
+          this.$message.success('保存成功')
+          this.loading = false
+          this.resolve()
+        }).catch(e => {
+          this.loading = false
+        })
       })
     },
     checkCode(rule, val, callback) {
