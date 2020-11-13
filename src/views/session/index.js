@@ -20,6 +20,15 @@ export default [
     }
   },
   {
+    path: '/session/side-column',
+    name: 'side-column',
+    component: () => import(/* webpackChunkName: "side-column" */ './page/side-column/side-column'),
+    meta: {
+      title: '侧边栏目',
+      isMenu: true
+    }
+  },
+  {
     path: '/session/column/add',
     name: 'columnAdd',
     component: () => import(/* webpackChunkName: "columnAdd" */ './page/column/add'),

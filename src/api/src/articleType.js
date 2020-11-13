@@ -37,5 +37,21 @@ export default {
   // 根据一级栏目查询二级栏目
   queryTypeOrSecondsType(data) {
     return axios.post('/type/queryTypeOrSecondsType', data)
+  },
+  // 增加侧边栏
+  addSideColumn(data) {
+    return axios.post('/type/addSideColumn', data)
+  },
+  // 查询侧边栏
+  querySideColumn(data) {
+    return axios.post('/type/querySideColumn', data)
+  },
+  // 删除侧边栏
+  deleteSideCoulmn(data) {
+    return axios.post('/type/deletesSideCoulmn', data)
+  },
+  // 修改侧边栏
+  updateSideColumn(data) {
+    return axios.post('/type/updateSideColumn', data)
   }
 }
