@@ -35,12 +35,13 @@ export default {
       forms: {
         name: '',
         code: '',
-        route_url: ''
+        route_url: '',
+        side_column: ''
       },
       loading: false,
       routeList: [{
         routeVal: 'article-column'
-      }]
+      }],
     }
   },
   methods: {
@@ -57,7 +58,9 @@ export default {
       callback()
     },
     addSide() {
-      this.$popup(addSideColumn)
+      this.$popup(addSideColumn).then(res => {
+        this.forms.side_column = res.join(',')
+      })
     },
     save() {
       this.loading = true

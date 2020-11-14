@@ -27,7 +27,7 @@ export default {
     },
     action: {
       type: String,
-      default: 'http://192.168.100.169:8081/api/upload/upload'
+      default: 'http://192.168.10.105:8081/api/upload/upload'
     },
     listType: {
       type: String,
@@ -56,7 +56,6 @@ export default {
       this.$emit('on-success', file.data)
     },
     onRemove(file, fileList) {
-      console.log(file, fileList)
       this.$emit('on-remove', file, fileList)
     },
     onExceed() {

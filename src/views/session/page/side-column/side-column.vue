@@ -73,10 +73,10 @@ export default {
         callback(new Error('code不能为空'))
         return
       }
-      if (!pureCapitalizedEnglish.test(val)) {
-        callback(new Error('code只能为大写字母'))
-        return
-      }
+      // if (!pureCapitalizedEnglish.test(val)) {
+      //   callback(new Error('code只能为大写字母'))
+      //   return
+      // }
       callback()
     },
     save() {

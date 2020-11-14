@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import updateColumn from '../popup/update'
+import updateColumn from '../popup/updateSeconds'
 export default {
   data() {
     return {

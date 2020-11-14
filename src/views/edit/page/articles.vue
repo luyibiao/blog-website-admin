@@ -181,12 +181,14 @@ export default {
 
     // 图片上传成功
     uploadSuccess(file) {
+      console.log(file)
       this.form.logoPath = file.path
       this.form.logonName = file.fName
     },
 
-    uploadRemove() {
-      this.forms.logo = ''
+    uploadRemove(file, filelist) {
+      console.log(filelist)
+      this.form.logo = ''
     },
     
     // 发布文章
