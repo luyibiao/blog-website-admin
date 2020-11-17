@@ -47,6 +47,15 @@ export default [
     }
   },
   {
+    path: '/list/recommend',
+    name: 'recommend',
+    component: () => import(/* webpackChunkName: "recommend" */ './page/recommend'),
+    meta: {
+      title: '推荐文章',
+      isMenu: true
+    }
+  },
+  {
     path: '/list/draff',
     name: 'draff',
     component: () => import(/* webpackChunkName: "draff" */ './page/draff'),

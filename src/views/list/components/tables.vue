@@ -63,6 +63,7 @@ import toppingBtn from './topping'
 import hotcBtn from './hotc'
 import topping from './topping'
 import deleteBtn from './deleteBtn'
+import recommend from './recommend'
 import { mapGetters } from 'vuex'
 export default {
   components: {
@@ -70,7 +71,8 @@ export default {
     draftBtn,
     toppingBtn,
     hotcBtn,
-    deleteBtn
+    deleteBtn,
+    recommend
   },
   props: {
     formsProp: {
@@ -180,6 +182,7 @@ export default {
               <div>
                 <statusBtn info={scope.row} callback={this.callback}></statusBtn>
                 <toppingBtn info={scope.row} callback={this.callback}></toppingBtn>
+                <recommend info={scope.row} callback={this.callback}></recommend>
                 <hotcBtn info={scope.row} callback={this.callback}></hotcBtn>
               </div>
             )
