@@ -2,8 +2,13 @@ import axios from 'axios';
 import qs from 'qs'
 import Vue from 'vue'
 
-const url = '/api'
+let url = '/api'
 
+if (process.env.NODE_ENV === 'production') {
+  url = process.env.VUE_APP_URL + 'api'
+} 
+
+url = 'http://www.97blognb.cn/api'
 const instance = axios.create({
   baseURL: url,
   timeout: 10000,
