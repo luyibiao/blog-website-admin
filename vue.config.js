@@ -5,6 +5,7 @@ const scss = `
 `
 
 module.exports = {
+  publicPath: '/blog-admin/',
   css: {
     loaderOptions: {
       scss: {

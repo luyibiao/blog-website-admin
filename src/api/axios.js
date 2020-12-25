@@ -7,8 +7,6 @@ let url = '/api'
 if (process.env.NODE_ENV === 'production') {
   url = process.env.VUE_APP_URL + 'api'
 } 
-
-url = 'http://www.97blognb.cn/api'
 const instance = axios.create({
   baseURL: url,
   timeout: 10000,
@@ -17,6 +15,9 @@ const instance = axios.create({
 
 instance.interceptors.request.use((config) => {
   config.data = qs.stringify(config.data)
+  if (window.store.state.user.token) {
+    // config.headers['token'] = window.store.state.user.token;
+  }
   return config;
 }, (err) => {
   console.log('请求超时!');
