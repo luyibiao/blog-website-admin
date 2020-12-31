@@ -16,7 +16,7 @@ const instance = axios.create({
 instance.interceptors.request.use((config) => {
   config.data = qs.stringify(config.data)
   if (window.store.state.user.token) {
-    // config.headers['token'] = window.store.state.user.token;
+    config.headers['token'] = window.store.state.user.token;
   }
   return config;
 }, (err) => {

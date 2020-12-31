@@ -9,6 +9,7 @@
       :on-remove="onRemove"
       :on-exceed="onExceed"
       :file-list="fileList"
+      :headers="headers"
       >
       <i class="el-icon-plus"></i>
     </el-upload>
@@ -27,7 +28,13 @@ export default {
     },
     action: {
       type: String,
-      default: 'http://192.168.210.93:8081/api/upload/upload'
+      default() {
+        if (process.env.NODE_ENV !== 'production') {
+          return 'http://192.168.210.46:8080/api/upload/upload'
+        } else {
+          return 'http://www.97blognb.cn/api/upload/upload'
+        }
+      }
     },
     listType: {
       type: String,
@@ -42,15 +49,23 @@ export default {
       default: () => []
     }
   },
+  data() {
+    return {
+      headers: {
+        token: window.store.state.user.token,
+        Accept: 'application/json, text/plain, */*'
+      }
+    }
+  },
   methods: {
     onSuccess(file) {
       if (file.code == '-1') {
-        this.$message.danger(file.msg)
+        this.$message.error(file.msg)
         this.$router.push({path: '/login'})
         return
       } 
       if (file.code != '1') {
-        this.$message.danger(file.msg)
+        this.$message.error(file.msg)
         return
       }
       this.$emit('on-success', file.data)
