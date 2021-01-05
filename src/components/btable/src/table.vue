@@ -121,6 +121,8 @@ export default {
             }
         },
 
+        // 自定义回调方法
+        formatCallback: null
     },
     data() {
         return {
@@ -156,6 +158,9 @@ export default {
             }
             this.$api[this.action](sendData).then(res => {
                 this.tableData = res.list;
+                if (this.formatCallback) {
+                    this.tableData = this.formatCallback(this.tableData)
+                }
                 this.total = res.total;
                 this.loading = false
             }).catch(() => {

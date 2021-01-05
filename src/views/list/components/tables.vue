@@ -48,6 +48,7 @@
           ...forms,
           ...formsProp
         }"
+        :formatCallback="formatCallback"
         :refresh="refresh"
         :columns="columns" />
         </template>
@@ -100,12 +101,14 @@ export default {
         prop: 'author'
       }, {
         label: '观看和评论数',
-        render: scope => (
-          <div>
-            <p>观看数： {scope.row.watch_num}</p>
-            <p>评论数： {scope.row.comment_num}</p>
-          </div>
-        ),
+        render: scope => {
+          return (
+            <div>
+              <p>观看数： {scope.row.watch_num}</p>
+              <p>评论数： {scope.row.watch_count}</p>
+            </div>
+          )
+        },
         width: '130px'
       }, {
         label: '文章logo',
@@ -205,6 +208,21 @@ export default {
     this.typeChange(this.getArticleType[0].code)
   },
   methods: {
+    formatCallback(list) {
+      list.map(async v => {
+        const count = await this.getCommontCount(v)
+        this.$set(v, 'watch_count', count)
+      })
+      return list
+    },
+    
+    getCommontCount(item) {
+      return this.$api.queryCommonetCount({
+        id: item.id
+      }).then(res => {
+        return res.count
+      })
+    },
     // 搜索
     onSearch() {
       this.refresh = !this.refresh

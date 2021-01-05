@@ -24,6 +24,11 @@ export default {
   // 删除文章
   deleteArticle(data) {
     return axios.post('/article/delete', data)
+  },
+
+  // 获取评论数
+  queryCommonetCount(data) {
+    return axios.post('/article/queryCommonetCount', data)
   }
 }
 
