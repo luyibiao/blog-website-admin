@@ -29,6 +29,7 @@ export default {
   // 获取评论数
   queryCommonetCount(data) {
     return axios.post('/article/queryCommonetCount', data)
-  }
+  },
+  // 上传图片
 }
 
