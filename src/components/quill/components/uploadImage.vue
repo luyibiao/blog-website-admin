@@ -4,7 +4,7 @@
       @on-remove="uploadRemove"
       @on-success="uploadSuccess" 
       :limit="1"
-      action="http://192.168.210.46:8080/api/upload1/upload1"
+      :action="action"
       />
       <el-button @click="reject()">取消</el-button>
       <el-button type="primary" @click="onsubmit">确定</el-button>
@@ -13,11 +13,26 @@
 
 <script>
 export default {
+  data() {
+    return {
+      action: '',
+      logoPath: ''
+    }
+  },
+  created() {
+    this.action = process.env.NODE_ENV === 'production' ?  'http://www.97blognb.cn/api/upload1/upload1' : 'http://192.168.100.169:8081/api/upload1/upload1'
+  },
   methods: {
-    onsubmit() {},
-    uploadRemove() {},
-    uploadSuccess() {
-
+    onsubmit() {
+      this.resolve({
+        path: this.logoPath
+      })
+    },
+    uploadRemove() {
+      this.logoPath = ''
+    },
+    uploadSuccess(e) {
+      this.logoPath = e.path
     }
   },
 }

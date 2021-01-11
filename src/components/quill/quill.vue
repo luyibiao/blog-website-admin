@@ -2,10 +2,9 @@
   <div class="components-quill">
     <quillEditor 
     :value="value"
+    ref="myQuillEditor"
     :options="editorOption"
     @change="change"/>
-
-    
   </div>
 </template>
 
@@ -53,7 +52,9 @@ export default {
             container: toolbarOptions,
             handlers: {
               'image': function() {
-                _this.$popup(uploadImage) 
+                _this.$popup(uploadImage).then(res => {
+                  _this.insertImg(res)
+                })
               }
             }
           },
@@ -64,6 +65,15 @@ export default {
   methods: {
     change(e) {
       this.$emit('input', e.html)
+    },
+    insertImg(info) {
+      let quill = this.$refs.myQuillEditor.quill
+      // 获取光标所在位置
+      const pos = quill.selection.savedRange.index //这个得注意下，网上很多都是不对的
+      // 插入图片到光标位置
+      quill.insertEmbed(pos,'image',info.path)
+      // 调整光标到最后
+      // quill.setSelection(length + 1)
     }
   },
 }
