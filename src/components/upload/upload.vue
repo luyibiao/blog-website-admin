@@ -30,7 +30,7 @@ export default {
       type: String,
       default() {
         if (process.env.NODE_ENV !== 'production') {
-          return 'http://192.168.210.46:8080/api/upload/upload'
+          return 'http://192.168.100.169:8080/api/upload/upload'
         } else {
           return 'http://www.97blognb.cn/api/upload/upload'
         }

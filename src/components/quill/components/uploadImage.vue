@@ -20,7 +20,7 @@ export default {
     }
   },
   created() {
-    this.action = process.env.NODE_ENV === 'production' ?  'http://www.97blognb.cn/api/upload1/upload1' : 'http://192.168.100.169:8081/api/upload1/upload1'
+    this.action = process.env.NODE_ENV === 'production' ?  'http://www.97blognb.cn/api/upload1/upload1' : 'http://192.168.100.169:8080/api/upload1/upload1'
   },
   methods: {
     onsubmit() {

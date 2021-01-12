@@ -32,6 +32,9 @@ export default {
     })
   },
 
+  // 判断是否为对象
+  isObject: val => Object.prototype.toString.call(val).slice(8, -1) === 'Object',
+
   // 判断对象是否为空
   emptyObj(val, isEnumerable = false) {
     return !!(Object.prototype.toString.call(val) === '[object Object]' ? 

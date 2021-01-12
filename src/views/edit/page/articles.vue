@@ -94,6 +94,7 @@
 <script>
 import addLabelList from '../components/addLabel'
 import { mapGetters } from 'vuex'
+import storage from '@/utils/storage'
 export default {
   name: '',
   
@@ -125,7 +126,8 @@ export default {
       id: '',
       fileList: [],
       editFlag: false,
-      articleItemlist: []
+      articleItemlist: [],
+      timer: null
     }
   },
   computed: {
@@ -138,8 +140,19 @@ export default {
       this.getDetail()
     }
     this.typeChange(this.getArticleType[0].code)
+    this.starTimer()
+  },
+  beforeDestroy() {
+    this.timer && clearInterval(this.timer)
   },
   methods: {
+    starTimer() {
+      this.timer = setInterval(_ => {
+        storage.setCache('article-content', {
+          content: this.form.content
+        })
+      }, 7 * 1000)
+    },
     init(res) {
       Object.keys(this.form).map(v => {
         if (res.hasOwnProperty(v)) {
@@ -156,6 +169,7 @@ export default {
       this.$api.queryArticleDetail({
         id: this.id
       }).then(res => {
+        res.content = decodeURIComponent(res.content)
         this.init(res)
       })
     },
@@ -207,6 +221,7 @@ export default {
         if (this.editFlag) {
           sendData.id = this.id
         }
+        sendData.content = encodeURIComponent(sendData.content)
         const action = this.editFlag ? 'updateArticle' : 'addArticle'
         const msg = this.editFlag ? '修改成功' : '新增成功'
         this.$api[action](sendData).then(res => {
