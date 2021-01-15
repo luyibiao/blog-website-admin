@@ -63,7 +63,7 @@
         </el-form-item>
 
         <el-form-item label="文章类型" :rules="isEmpty('文章类型不能为空')">
-          <el-select v-model="form.type" style="width: 150px;" @change="typeChange">
+          <el-select v-model="form.type" style="width: 150px;" @change="changecallback">
             <el-option 
             :label="item.name"
             :value="item.code"
@@ -130,6 +130,13 @@ export default {
       timer: null
     }
   },
+  watch: {
+    'form.type': {
+      handler(v) {
+        this.typeChange(v)
+      },
+    }
+  },
   computed: {
     ...mapGetters(['getArticleType'])
   },
@@ -138,8 +145,9 @@ export default {
     if (this.id) {
       this.editFlag = true
       this.getDetail()
+    } else {
+      this.typeChange(this.form.type)
     }
-    this.typeChange(this.getArticleType[0].code)
     this.starTimer()
   },
   beforeDestroy() {
@@ -159,6 +167,7 @@ export default {
           this.form[v] = res[v]
         }
       })
+      this.typeChange(this.form.type)
       this.selectArr = JSON.parse(this.form.label || '[]')
       this.fileList.push({
         url: res.logo
@@ -188,9 +197,14 @@ export default {
 
     // 拿文章子类型
     typeChange(v) {
+      
       this.$api.queryTypeOrSecondsType({articletype_code: v}).then(res => {
         this.articleItemlist = res.list
       })
+    },
+
+    changecallback() {
+      this.form.child_type = ''
     },
 
     // 图片上传成功
@@ -215,6 +229,7 @@ export default {
         if (!valid) return
         this.loading = true
         this.form.label = JSON.stringify(this.selectArr)
+        this.form.status = 'LINE'
         const sendData = {
           ...this.form
         }
