@@ -46,6 +46,7 @@ export default {
       const _this = this
     return {
       content: '',
+      quill: null,
       editorOption: {
         modules: {
           toolbar: {
@@ -61,6 +62,10 @@ export default {
         }
       }
     }
+  },
+  mounted() {
+   
+    
   },
   methods: {
     change(e) {
@@ -93,6 +98,16 @@ export default {
       .ql-container {
         flex: 1;
         height: 0px;
+        .ql-editor  {
+          line-height: 2;
+          letter-spacing: 1px;
+          font-size: 16px;
+          color: #636b6f;
+          .ql-indent-1:not(.ql-direction-rtl) {
+            padding-left: 0;
+            text-indent: 2em;
+          }
+        }
       }
     }
   }

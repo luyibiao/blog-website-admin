@@ -88,6 +88,7 @@
         <el-button type="primary" @click="submit">{{editFlag ? '修改' : '发布'}}</el-button>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -119,7 +120,8 @@ export default {
         status: 'LINE',
         logoPath: '',
         logonName: '',
-        logo: ''
+        logo: '',
+        str: '<p>1232121</p>'
       },
       selectArr: [],
       loading: false,
@@ -127,7 +129,7 @@ export default {
       fileList: [],
       editFlag: false,
       articleItemlist: [],
-      timer: null
+      timer: null,
     }
   },
   watch: {
@@ -179,7 +181,10 @@ export default {
         id: this.id
       }).then(res => {
         res.content = decodeURIComponent(res.content)
+        console.log(res.content)
         this.init(res)
+
+        console.log(res)
       })
     },
     onShowLabel() {
